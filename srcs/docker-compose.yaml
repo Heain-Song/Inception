@@ -1,0 +1,66 @@
+version: "2.2"
+
+networks:
+  intra:
+    driver: bridge #driver connection type is bridge
+    ipam: 
+      driver: default
+      config:
+        - subnet: 172.31.0.0/16 #docker network
+
+volumes:
+  wordpress-volume:
+    name: wordpress-volume
+    driver: local
+    driver_opts:
+      type: none
+      device: /home/hesong/data/wordpress #share with host
+      o: bind
+
+  mariadb-volume:
+    name: mariadb-volume
+    driver: local
+    driver_opts:
+      type: none
+      device: /home/hesong/data/mariadb #share with host
+      o: bind
+
+services:
+  
+  mariadb:
+    build: ./requirements/mariadb
+    container_name: mariadb
+    expose:
+      - "3306"
+    volumes:
+      - mariadb-volume:/var/lib/mysql
+    networks:
+      intra:
+        ipv4_address: 172.31.0.13
+    env_file:
+      - .env
+
+  wordpress:
+    build: ./requirements/wordpress
+    container_name: wordpress
+    volumes:
+      - wordpress-volume:/var/www/html
+    expose:
+      - "9000"
+    networks:
+      intra:
+        ipv4_address: 172.31.0.11
+    env_file:
+      - .env # env path
+
+  nginx:
+    build: ./requirements/nginx
+    container_name: nginx
+    ports:
+      - "443:443"
+    volumes:
+      - wordpress-volume:/var/www/html
+    networks:
+      intra:
+        ipv4_address: 172.31.0.12
+
