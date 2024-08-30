@@ -1,4 +1,8 @@
+<<<<<<< HEAD
+# version: "3.8"
+=======
 version: "2.2"
+>>>>>>> d317a67143fb514fe922c4eab02cf661f6772dff
 
 networks:
   intra:
@@ -29,9 +33,16 @@ services:
   
   mariadb:
     build: ./requirements/mariadb
+<<<<<<< HEAD
+    restart: always
+    container_name: mariadb
+    expose:
+        - "3306"
+=======
     container_name: mariadb
     expose:
       - "3306"
+>>>>>>> d317a67143fb514fe922c4eab02cf661f6772dff
     volumes:
       - mariadb-volume:/var/lib/mysql
     networks:
@@ -42,19 +53,37 @@ services:
 
   wordpress:
     build: ./requirements/wordpress
+<<<<<<< HEAD
+    restart: always
+    container_name: wordpress
+    expose:
+        - "9000"
+    volumes:
+      - wordpress-volume:/var/www/html
+=======
     container_name: wordpress
     volumes:
       - wordpress-volume:/var/www/html
     expose:
       - "9000"
+>>>>>>> d317a67143fb514fe922c4eab02cf661f6772dff
     networks:
       intra:
         ipv4_address: 172.31.0.11
     env_file:
       - .env # env path
+<<<<<<< HEAD
+    depends_on:
+      - mariadb
 
   nginx:
     build: ./requirements/nginx
+    restart: always
+=======
+
+  nginx:
+    build: ./requirements/nginx
+>>>>>>> d317a67143fb514fe922c4eab02cf661f6772dff
     container_name: nginx
     ports:
       - "443:443"
