@@ -2,7 +2,7 @@ FROM debian:bullseye
 
 WORKDIR /var/www/html/
 
-RUN apt-get update -y && apt-get upgrade -y && apt-get install -y curl netcat php php7.4-fpm php-mysql mariadb-client wget mycli php-cli php-mbstring php-xml sendmail 
+RUN apt-get update -y && apt-get upgrade -y && apt-get install -y curl netcat php php7.4-fpm php-mysql mariadb-client wget mycli php-cli php-mbstring php-xml
 
 EXPOSE 9000
 
